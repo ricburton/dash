@@ -1,11 +1,13 @@
 Dash
 ====
 
-A simple dashboard for ecommerce companies using Google Analytics. Dash regularly polls your Google Analytics account and stores some of the most important metrics about a site's traffic. It is my first attempt at a Sinatra app. I built the first version of Dash in Rails for a client and they found the ability to see how their different traffic sources looked in a stacked area chart particularly helpful.
+Dash is a simple dashboard for ecommerce companies using Google Analytics. Dash regularly polls your Google Analytics account and stores some of the most important metrics about a site's traffic. Originally, I built a dashboard for a client using rails and they found the ability to see how their different traffic sources looked in a stacked area chart particularly helpful. I decided afterwards that this would be a good app to try and build using Sinatra. 
 
 ![](https://dl.dropbox.com/u/11299300/dash_v1.png)
 
 ## Installation
+
+Dash works best if you have ecommerce tracking enabled on Google Analytics. You can read more about ecommerce tracking here: 
 
 To get Dash up-and-running, you'll want to change a few things at the top of the app.rb file:
 
