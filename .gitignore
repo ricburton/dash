@@ -1,3 +1,26 @@
+<<<<<<< HEAD
+=======
+*.gem
+*.rbc
+.bundle
+.config
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
+
+#Gem-, Dropbox- and database-related files
 Gemfile.lock
 .DS_store
 development.db
+>>>>>>> eb0036c10166bc19cdf6015f8815ab33533ab273
