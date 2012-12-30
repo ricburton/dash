@@ -1,0 +1,113 @@
+<script type="text/javascript">
+var chart;
+$(document).ready(function() {
+  chart = new Highcharts.Chart({
+   chart: {
+    renderTo: 'graph',
+    type: 'area'
+  },
+  title: {
+    text: ''//Empty for head title.
+  },
+  xAxis: {
+        categories: <%= @days.inspect %>,
+        tickmarkPlacement: 'off',
+        title: {
+        	enabled: false
+        }
+      },
+      legend: {
+      	enabled: true,
+      },
+      yAxis: {
+        gridLineWidth: 0,
+      	title: {
+      		text: 'Visits / Day'
+      	},
+         lineWidth: 0,
+         minorGridLineWidth: 0,
+         lineColor: 'transparent',
+      	labels: {
+          enabled:true,
+          tickInterval: 5000,
+      	}
+      },
+      tooltip: {
+      	formatter: function() {
+      		if (this.series.name == 'YTD Daily Traffic Avg'){
+      			return false;
+      		} else {
+      			return ''+
+      			this.series.name + ' traffic for ' + this.x +': '+ Highcharts.numberFormat(this.y, 0, ',') +' visits';
+      		}
+      	}
+      },
+      plotOptions: {
+      	area: {
+      		stacking: 'normal',
+      		lineColor: '#666666',
+      		lineWidth: 1,
+      		marker: {
+      			lineWidth: 1,
+      			lineColor: '#666666'
+      		},
+      		marker: {fillColor: '#FFFFFF',
+      		lineWidth: 2,
+      		radius:3,
+      		symbol: 'circle',
+          lineColor: null //inherits color
+        },
+        dataLabels: {
+        	enabled: false,
+        },
+      }
+    },
+    series: [{
+    	name: 'Email',
+    	fillColor: '#71a75b',
+    	color: '#71a75b',
+      data: <%= @email %>
+    },{
+    	name: 'Social',
+    	fillColor: '#A60F2F',
+    	color: '#A60F2F',
+    	data: <%= @social %>
+    },{
+    	name: 'Paid',
+    	fillColor: '#f47f05',
+    	color: '#f47f05',
+    	data: <%= @paid %>
+    },{
+    	name: 'Other Referrals',
+    	fillColor: '#ae87c4',
+    	color: '#ae87c4',
+    	data: <%= @referral %>
+    },{
+    	name: 'Brand Search',
+    	fillColor: '#446a9c',
+    	color: '#446a9c',
+    	data: <%= @branded %>
+    },{
+    	name: 'Non-Branded Search',
+    	fillColor: '#3893c8',
+    	color: '#3893c8',
+    	data: <%= @nonbranded %>
+    },{
+    	name: 'Unknown Keyword Search',
+    	fillColor: '#7ac4a0',
+    	color: '#7ac4a0',
+    	data: <%= @unknown %>
+    },{
+    	name: 'Affiliate',
+    	fillColor: '#B99306',
+    	color: '#B99306',
+    	data: <%= @affiliate %>
+    },{
+    	name: 'Direct',
+    	fillColor: '#c9423f',
+    	color: '#c9423f',
+    	data: <%= @direct %>
+    }]
+  });
+});
+</script>

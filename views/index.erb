@@ -1,0 +1,61 @@
+<!-- TODO - Convert this to CoffeeScript -->
+<%= erb(:graph_data, :layout => false) %>
+
+<div id="container">
+	<div class="title">
+		Dash
+	</div>
+	<div id="graph"></div>
+  <div id="numbers">
+    <div class="fine number">
+      <strong>Visits</strong>
+      <var class="darkgray">
+        <%= @visits_today %>
+      </var>
+      <em>
+        <br/>Yesterday: <b><%= @visits_yesterday %></b>
+        <br/>SDLW: <b><%= @visits_sdlw %></b>
+      </em>
+    </div>
+    <div class="fine number">
+      <strong>Revenue</strong>
+      <var class="darkgray">
+        <%= @revenue_today %>
+      </var>
+      <em>
+        <br/>Yesterday: <b><%= @revenue_yesterday %></b>
+        <br/>SDLW: <b><%= @revenue_sdlw %></b>
+      </em>
+    </div>
+    <div class="fine number">
+      <strong>Checkouts</strong>
+      <var class="darkgray">
+        <%= @checkouts_today %>
+      </var>
+      <em>
+        <br/>Yesterday: <b><%= @checkouts_yesterday %></b>
+        <br/>SDLW: <b><%= @checkouts_sdlw %></b>
+      </em>
+    </div>
+    <div class="fine number">
+      <strong>Basket Size</strong>
+      <var class="darkgray">
+        <%= @basket_size_today %>
+      </var>
+      <em>
+        <br/>Yesterday: <b><%= @basket_size_yesterday %></b>
+        <br/>SDLW: <b><%= @basket_size_sdlw %></b>
+      </em>
+    </div>
+    <div class="fine number">
+      <strong>Conversion Rate</strong>
+      <var class="darkgray">
+        <%= @conversion_rate_today %>
+      </var>
+      <em>
+        <br/>Yesterday: <b><%= @conversion_rate_yesterday %></b>
+        <br/>SDLW: <b><%= @conversion_rate_sdlw %></b>
+      </em>
+    </div>
+  </div>
+</div>

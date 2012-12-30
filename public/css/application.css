@@ -1,0 +1,108 @@
+html {
+	background: #EEE;
+}
+
+body {
+	font-size: small;
+	font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+}
+
+#container{background:#fff;
+	width:960px;
+	text-align:left;
+	border:1px solid #ccc;
+	margin:0 auto 10px auto;
+	min-width:790px;
+	overflow:hidden;
+	-webkit-box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;
+	-moz-box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;
+	-o-box-shadow:rgba(0,0,0,0.2) 0px 0px 5px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius:		 10px;
+	border-radius:         10px;
+	box-shadow:rgba(0,0,0,0.2) 0px 0px 5px
+}
+
+.title {
+	width:100%;
+	height:22px;
+	padding:3px 0 0 0;
+	font-size:15px;
+	vertical-align: bottom;
+	background-color:#dbdbdb;
+	text-align:center;
+}
+
+/* Colors */
+
+.gray{color:#999}
+.darkgray{color:#222}
+.blue{color:#3A7B9F}
+.red{color:#D03A11}
+.green{color:#679904}
+
+.great {
+	border:1px solid #C3DFA7;
+	background: #F7FFEF;
+}
+
+.fine {
+	border:1px solid #dedede;
+	background: #eee;
+}
+
+.problem {
+	border:1px solid #EFBEB3;
+	background: #FFF2EF;
+}
+
+/* Graph */
+
+#graphmin-width {
+	min-width: 960px;
+	max-width:960px;
+	height: 400px;
+	margin: 0 auto 20px
+}
+
+/* Numbers */
+/* Thanks to Wufoo for the styling here. */
+
+#numbers {
+	margin: 0 auto;
+	width: 960px;
+	text-align:center;
+	white-space:nowrap;
+}
+
+.number {
+	width:                 140px;
+	padding: 							 13px 9px 15px 9px;
+	text-align:            center;
+	-webkit-border-radius: 20px;
+	-moz-border-radius:		 20px;
+	border-radius:         20px;
+	color: 								 #222;
+	float:                 center;
+	display:               inline-block;
+	margin:                10px;
+	vertical-align:        middle;
+}
+
+.number strong{
+	font-size:110%;
+	display:block;
+	padding-bottom:2px
+}
+.number var{
+	font-size:190%;
+	font-style:normal;
+	font-weight:bold;
+	display:block;
+	padding-bottom:3px
+}
+.number em{
+	font-size:90%;
+	font-style:normal;
+	display:block
+}
