@@ -28,15 +28,13 @@ BRAND_NAME = 'smith'
 CURRENCY = '&pound;'
 ```
 
-Then, to test it locally, run:
+Then, to test it locally, run the following commands from the app's directory using terminal:
 
-```ruby
+```
 bundle install
 shotgun app.rb
 ```
 
-Then, to get the historical data you can call the refresh method from your browser:
+Then, to get the historical data, you can call the refresh method from your browser:
 
-```ruby
-http://localhost:4567/refresh
-```
+`http://localhost:4567/refresh`
