@@ -1,13 +1,17 @@
 require 'rubygems'
 require 'sinatra'
+require 'sinatra/config_file'
 require 'garb'
 require 'data_mapper'
 require 'rufus/scheduler'
 
-#Set the access credentials for your GA account and the ID of the site.
-username = 'admin@domain.com'
-password = '*****'
-profile_id = 'UA-0000000-0'
+#Set the access credentials for your GA account and the ID of the site in a config.yml file.
+set :environment, :production, :development
+config_file 'config.yml'
+
+username   =  settings.username
+password   =  settings.password
+profile_id =  settings.profile_id
 
 #Set the name of the brand. This is used to split out search traffic.
 BRAND_NAME = 'smith'
@@ -16,9 +20,9 @@ BRAND_NAME = 'smith'
 CURRENCY = '&pound;'
 
 #Some useful globals for the app.
-TODAY = Date.today
+TODAY     = Date.today
 YESTERDAY = TODAY - 1
-SDLW = TODAY - 7
+SDLW      = TODAY - 7
 
 #Start the scheduler
 scheduler = Rufus::Scheduler.start_new
@@ -49,15 +53,15 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite3://#{Dir.pwd}/developm
 #Define the model for the data.
 class Metric
   include DataMapper::Resource
-  property :id,               Serial
-  property :source,             String,        default: 'none'
-  property :visits,           Integer,         default: 0
-  property :transaction_revenue,      Float,   default: 0
-  property :transactions,         Integer,       default: 0
-  property :revenue_per_transaction,    Float, default: 0
-  property :conversion_rate,        Float,     default: 0
-  property :start_date,           Date,        default: TODAY
-  property :end_date,           Date,          default: TODAY
+  property :id,                       Serial
+  property :source,                   String,   default: 'none'
+  property :visits,                   Integer,  default: 0
+  property :transaction_revenue,      Float,    default: 0
+  property :transactions,             Integer,  default: 0
+  property :revenue_per_transaction,  Float,    default: 0
+  property :conversion_rate,          Float,    default: 0
+  property :start_date,               Date,     default: TODAY
+  property :end_date,                 Date,     default: TODAY
 end
 
 DataMapper.finalize.auto_upgrade!
@@ -68,13 +72,13 @@ def all_metrics(start_date, end_date)
   d = PROFILE.all(start_date: start_date, end_date: end_date).first
   if d
     data = Metric.first_or_create(source:             'all',
-      visits:             d.visits.to_i,
+      visits:                   d.visits.to_i,
       transaction_revenue:      d.transaction_revenue.to_f,
-      transactions:         d.transactions.to_i,
-      revenue_per_transaction:    d.revenue_per_transaction.to_f,
-      conversion_rate:         (d.transactions.to_f / d.visits.to_f) * 100,
-      start_date:           start_date,
-      end_date:           end_date)
+      transactions:             d.transactions.to_i,
+      revenue_per_transaction:  d.revenue_per_transaction.to_f,
+      conversion_rate:          (d.transactions.to_f / d.visits.to_f) * 100,
+      start_date:               start_date,
+      end_date:                 end_date)
   else
     data = Metric.first_or_create(start_date: start_date, end_date: end_date, source: source).update(visits: 0)
   end

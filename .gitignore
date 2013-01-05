@@ -21,3 +21,4 @@ doc/
 Gemfile.lock
 .DS_store
 development.db
+config.yml

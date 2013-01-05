@@ -13,14 +13,17 @@ This is my first attempt at creating an app using Sinatra. Originally, I built a
 
 Dash works best if you have ecommerce tracking enabled on Google Analytics. You can read more about ecommerce tracking here: https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingEcommerce
 
-To get Dash up-and-running, you'll want to change a few things at the top of the app.rb file:
+To get Dash up-and-running, you'll want to create a config.yml file in the main directory with the following:
 
 ```ruby
-#Set the access credentials for your GA account and the ID of the site. #Todo — don't check in password!
-username = 'admin@domain.com'
-password = '*****'
-profile_id = 'UA-0000000-0'
+username:   admin@domain.com
+password:   *****
+profile_id: UA-0000000-0
+```
 
+Then, at the top of app.rb, you'll want to modify the brand name of the site you're working on and the currency.
+
+```ruby
 #Set the name of the brand. This is used to split out search traffic.
 BRAND_NAME = 'smith'
 
