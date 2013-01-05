@@ -1,7 +1,7 @@
 Dash
 ====
 
-Dash is a simple dashboard for ecommerce companies using Google Analytics. Dash regularly polls your Google Analytics account and stores some of the most important metrics about a site's traffic. 
+Dash is a simple dashboard for ecommerce companies using Google Analytics. Dash regularly polls your Google Analytics account and stores some of the most important metrics about a site's traffic.
 
 You can see Dash working here: http://dashtest.herokuapp.com
 
