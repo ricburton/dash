@@ -35,7 +35,7 @@ Then, to test it locally, run the following commands from the app's directory us
 
 ```
 bundle install
-shotgun app.rb
+shotgun
 ```
 
 Then, to get the historical data, you can call the refresh method from your browser:
