@@ -10,51 +10,51 @@
     <div class="fine number">
       <strong>Visits</strong>
       <var class="darkgray">
-        <%= @visits_today %>
+        <%= @today[:visits] %>
       </var>
       <em>
-        <br/>Yesterday: <b><%= @visits_yesterday %></b>
-        <br/>SDLW: <b><%= @visits_sdlw %></b>
+        <br/>Yesterday: <b><%= @yesterday[:visits] %></b>
+        <br/>SDLW: <b><%= @sdlw[:visits] %></b>
       </em>
     </div>
     <div class="fine number">
       <strong>Revenue</strong>
       <var class="darkgray">
-        <%= @revenue_today %>
+        <%= @today[:revenue] %>
       </var>
       <em>
-        <br/>Yesterday: <b><%= @revenue_yesterday %></b>
-        <br/>SDLW: <b><%= @revenue_sdlw %></b>
+        <br/>Yesterday: <b><%= @yesterday[:revenue] %></b>
+        <br/>SDLW: <b><%= @today[:revenue] %></b>
       </em>
     </div>
     <div class="fine number">
       <strong>Checkouts</strong>
       <var class="darkgray">
-        <%= @checkouts_today %>
+        <%= @today[:checkouts] %>
       </var>
       <em>
-        <br/>Yesterday: <b><%= @checkouts_yesterday %></b>
-        <br/>SDLW: <b><%= @checkouts_sdlw %></b>
+        <br/>Yesterday: <b><%= @yesterday[:checkouts] %></b>
+        <br/>SDLW: <b><%= @sdlw[:checkouts] %></b>
       </em>
     </div>
     <div class="fine number">
       <strong>Basket Size</strong>
       <var class="darkgray">
-        <%= @basket_size_today %>
+        <%= @today[:basket_size] %>
       </var>
       <em>
-        <br/>Yesterday: <b><%= @basket_size_yesterday %></b>
-        <br/>SDLW: <b><%= @basket_size_sdlw %></b>
+        <br/>Yesterday: <b><%= @yesterday[:basket_size] %></b>
+        <br/>SDLW: <b><%= @sdlw[:basket_size] %></b>
       </em>
     </div>
     <div class="fine number">
       <strong>Conversion Rate</strong>
       <var class="darkgray">
-        <%= @conversion_rate_today %>
+        <%= @today[:conversion_rate] %>
       </var>
       <em>
-        <br/>Yesterday: <b><%= @conversion_rate_yesterday %></b>
-        <br/>SDLW: <b><%= @conversion_rate_sdlw %></b>
+        <br/>Yesterday: <b><%= @yesterday[:conversion_rate] %></b>
+        <br/>SDLW: <b><%= @sdlw[:conversion_rate] %></b>
       </em>
     </div>
   </div>

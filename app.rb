@@ -32,10 +32,7 @@ module Dash
 
   class All
     extend Garb::Model
-    metrics :visits,
-    :transaction_revenue,
-    :transactions,
-    :revenue_per_transaction
+    metrics :visits, :transaction_revenue, :transactions, :revenue_per_transaction
   end
 
   class Visits
@@ -93,36 +90,9 @@ module Dash
       @days = (SDLW..TODAY).map{|date| date.strftime("%a").to_s}
 
       #Data for the small data panels.
-      #TODO - How can I refactor this to clean up the code and catch errors more effectively?
-      todays_data = Metric.last(source: 'all', start_date: TODAY, end_date: TODAY)
-      @visits_today, @revenue_today, @checkouts_today, @basket_size_today, @conversion_rate_today = 0, 0, 0, 0, 0
-      if todays_data
-        @visits_today          = todays_data.visits.to_s
-        @revenue_today         = "#{CURRENCY}" + todays_data.transaction_revenue.to_s
-        @checkouts_today       = todays_data.transactions.to_s
-        @basket_size_today     = "#{CURRENCY}" + '%.2f' % todays_data.revenue_per_transaction.to_s
-        @conversion_rate_today = '%.2f' % todays_data.conversion_rate.to_s + '%'
-      end
-
-      yesterdays_data = Metric.last(source: 'all', start_date: YESTERDAY, end_date: YESTERDAY)
-      @visits_yesterday, @revenue_yesterday, @checkouts_yesterday, @basket_size_yesterday, @conversion_rate_yesterday = 0, 0, 0, 0, 0
-      if yesterdays_data
-        @visits_yesterday          = yesterdays_data.visits.to_s
-        @revenue_yesterday         = "#{CURRENCY}" + yesterdays_data.transaction_revenue.to_s
-        @checkouts_yesterday       = yesterdays_data.transactions.to_s
-        @basket_size_yesterday     = "#{CURRENCY}" + '%.2f' % yesterdays_data.revenue_per_transaction.to_s
-        @conversion_rate_yesterday = '%.2f' % yesterdays_data.conversion_rate.to_s + '%'
-      end
-
-      sdlw_data = Metric.last(source: 'all', start_date: SDLW, end_date: SDLW)
-      @visits_sdlw, @revenue_sdlw, @checkouts_sdlw, @basket_size_sdlw, @conversion_rate_sdlw = 0, 0, 0, 0, 0
-      if sdlw_data
-        @visits_sdlw           = sdlw_data.visits.to_s
-        @revenue_sdlw          = "#{CURRENCY}" + sdlw_data.transaction_revenue.to_s
-        @checkouts_sdlw        = sdlw_data.transactions.to_s
-        @basket_size_sdlw      = "#{CURRENCY}" + '%.2f' % sdlw_data.revenue_per_transaction.to_s
-        @conversion_rate_sdlw  = '%.2f' % sdlw_data.conversion_rate.to_s + '%'
-      end
+      @today     = keymetrics(TODAY)
+      @yesterday = keymetrics(YESTERDAY)
+      @sdlw      = keymetrics(SDLW)
 
       erb :index
     end
@@ -142,6 +112,17 @@ module Dash
     end
 
     helpers do
+      def keymetrics(date)
+        data = Metric.last(source: 'all', start_date: date, end_date: date)
+        return {
+          visits:           data.visits.to_s,
+          revenue:          CURRENCY + data.transaction_revenue.to_s,
+          checkouts:        data.transactions.to_s,
+          basket_size:      CURRENCY + '%.2f' % data.revenue_per_transaction.to_s,
+          conversion_rate:  '%.2f' % data.conversion_rate.to_s + '%'
+        }
+      end
+
       def all_metrics(start_date, end_date)
         d = settings.profile.all(start_date: start_date, end_date: end_date).first
         if d
