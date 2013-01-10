@@ -40,4 +40,4 @@ shotgun
 
 Then, to get the historical data, you can call the refresh method from your browser:
 
-`http://localhost:4567/refresh`
+`http://localhost:9393/refresh`
