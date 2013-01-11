@@ -40,6 +40,33 @@ module Dash
     metrics :visits
   end
 
+  class GraphData
+    def initialize(date_range)
+      get_data(date_range)
+    end
+
+    def visits(source)
+      [].tap do |v|
+        (SDLW..TODAY).each do |date|
+          check = Metric.last(start_date: date, end_date: date, source: source)
+          visits = check.nil? ? 0 : check.visits
+          v << visits
+        end
+      end
+    end
+
+    protected
+
+    def get_data(date_range)
+      date_range.each do |date|
+        %w{branded nonbranded unknown affiliate social referral paid direct email}.each do |type|
+          self.class.send :attr_accessor, type
+          instance_variable_set "@#{type}", visits(type)
+        end
+      end
+    end
+  end
+
   class App < Sinatra::Base
     configure :development do
       require 'sinatra/reloader'
@@ -74,17 +101,7 @@ module Dash
       @branded, @nonbranded, @unknown, @affiliate, @social, @referral, @paid, @direct, @email = [], [], [], [], [], [], [], [], []
 
       #Get the last 7 days of data.
-      (SDLW...TODAY).each do |date|
-        @branded    << visits('branded', date)
-        @nonbranded << visits('nonbranded', date)
-        @unknown    << visits('unknown', date)
-        @affiliate  << visits('affiliate', date)
-        @social     << visits('social', date)
-        @referral   << visits('referral', date)
-        @paid       << visits('paid', date)
-        @direct     << visits('direct', date)
-        @email      << visits('email', date)
-      end
+      @graph_data = GraphData.new(SDLW..TODAY)
 
       #Days for the Y axis
       @days = (SDLW..TODAY).map{|date| date.strftime("%a").to_s}
@@ -152,24 +169,26 @@ module Dash
         'email'      => { :medium.contains => "email|Email"}}
 
           #Make the requests to GA for the visits by source.
-          traffic_sources.each do |source, filter|
-            d = settings.profile.visits(start_date: start_date, end_date: end_date, filters: filter).first
-            if d
+        traffic_sources.each do |source, filter|
+          d = settings.profile.visits(start_date: start_date, end_date: end_date, filters: filter).first
+
+          # Find the last result using DataMapper
+          if d
             #Save the data.
             data = Metric.first_or_create(start_date: start_date, end_date: end_date, source: source).update(visits: d.visits.to_f)
           else
-            #Save 0 if empty.
-            data = Metric.first_or_create(start_date: start_date, end_date: end_date, source: source).update(visits: 0)
+            #check for older data
+            old_data = Metric.first(start_date: start_date, end_date: end_date, source: source)
+            if old_data.nil?
+              #if the data is nil, create a record for 0
+              Metric.new(start_date: start_date, end_date: end_date, source: source, visits: 0)
+            else
+              #otherwise, just save the old data
+              old_data.save
+            end
           end
-          p data # Again, intended?
         end
-      end
-
-      def visits(tag, date)
-        check = Metric.last(start_date: date, end_date: date, source: tag)
-        check.nil? ? 0 : check.visits
       end
     end
   end
 end
-

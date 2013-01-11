@@ -66,47 +66,47 @@ $(document).ready(function() {
     	name: 'Email',
     	fillColor: '#71a75b',
     	color: '#71a75b',
-      data: <%= @email %>
+      data: <%= @graph_data.email %>
     },{
     	name: 'Social',
     	fillColor: '#A60F2F',
     	color: '#A60F2F',
-    	data: <%= @social %>
+    	data: <%= @graph_data.social %>
     },{
     	name: 'Paid',
     	fillColor: '#f47f05',
     	color: '#f47f05',
-    	data: <%= @paid %>
+    	data: <%= @graph_data.paid %>
     },{
     	name: 'Other Referrals',
     	fillColor: '#ae87c4',
     	color: '#ae87c4',
-    	data: <%= @referral %>
+    	data: <%= @graph_data.referral %>
     },{
     	name: 'Brand Search',
     	fillColor: '#446a9c',
     	color: '#446a9c',
-    	data: <%= @branded %>
+    	data: <%= @graph_data.branded %>
     },{
     	name: 'Non-Branded Search',
     	fillColor: '#3893c8',
     	color: '#3893c8',
-    	data: <%= @nonbranded %>
+    	data: <%= @graph_data.nonbranded %>
     },{
     	name: 'Unknown Keyword Search',
     	fillColor: '#7ac4a0',
     	color: '#7ac4a0',
-    	data: <%= @unknown %>
+    	data: <%= @graph_data.unknown %>
     },{
     	name: 'Affiliate',
     	fillColor: '#B99306',
     	color: '#B99306',
-    	data: <%= @affiliate %>
+    	data: <%= @graph_data.affiliate %>
     },{
     	name: 'Direct',
     	fillColor: '#c9423f',
     	color: '#c9423f',
-    	data: <%= @direct %>
+    	data: <%= @graph_data.direct %>
     }]
   });
 });
