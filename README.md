@@ -5,7 +5,7 @@ Dash is a simple dashboard for ecommerce companies using Google Analytics. Dash 
 
 You can see Dash working here: http://dashtest.herokuapp.com
 
-![](https://dl.dropbox.com/u/11299300/dash_v1.png)
+![](http://f.cl.ly/items/3R2Z0T2q241H071w3b2k/dash_v1.png)
 
 This is my first attempt at creating an app using Sinatra. Originally, I built a dashboard for a client using rails. They found the ability to see how their different traffic sources looked in a stacked area chart particularly helpful.
 
@@ -35,9 +35,9 @@ Then, to test it locally, run the following commands from the app's directory us
 
 ```
 bundle install
-shotgun
+shotgun config.ru
 ```
 
 Then, to get the historical data, you can call the refresh method from your browser:
 
-`http://localhost:4567/refresh`
+`http://localhost:9393/refresh`
