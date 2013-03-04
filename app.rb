@@ -12,10 +12,21 @@ module Dash
   #Set the currency of the store
   CURRENCY = '&pound;'
 
-  #TODO - Constants for the dates?
-  TODAY     = Date.today
-  YESTERDAY = TODAY - 1
-  SDLW      = TODAY - 7
+  module Day
+    class << self
+      def today
+        Date.today
+      end
+
+      def yesterday
+        today - 1
+      end
+
+      def sdlw
+        today - 7
+      end
+    end
+  end
 
   class Metric
     include DataMapper::Resource
@@ -26,8 +37,25 @@ module Dash
     property :transactions,             Integer,  default: 0
     property :revenue_per_transaction,  Float,    default: 0
     property :conversion_rate,          Float,    default: 0
-    property :start_date,               Date,     default: TODAY
-    property :end_date,                 Date,     default: TODAY
+    property :start_date,               Date,     default: Day.today
+    property :end_date,                 Date,     default: Day.today
+
+    def revenue
+      CURRENCY + transaction_revenue.to_s
+    end
+
+    def checkouts
+      transactions
+    end
+
+    def basket_size
+      CURRENCY + '%.2f' % revenue_per_transaction.to_s
+    end
+
+    def conversion_rate
+      '%.2f' % conversion_rate.to_s + '%'
+    end
+
   end
 
   class All
@@ -41,28 +69,22 @@ module Dash
   end
 
   class GraphData
-    def initialize(date_range)
-      get_data(date_range)
-    end
+    ATTRS = %w{branded nonbranded unknown affiliate social referral paid direct email}
+    attr_accessor *ATTRS
 
-    def visits(source)
-      [].tap do |v|
-        (SDLW..TODAY).each do |date|
-          check = Metric.last(start_date: date, end_date: date, source: source)
-          visits = check.nil? ? 0 : check.visits
-          v << visits
+    def initialize(date_range)
+      ATTRS.each do |type|
+        date_range.each do |date|
+          send "#{type}=", visits(type)
         end
       end
     end
 
-    protected
-
-    def get_data(date_range)
-      date_range.each do |date|
-        %w{branded nonbranded unknown affiliate social referral paid direct email}.each do |type|
-          self.class.send :attr_accessor, type
-          instance_variable_set "@#{type}", visits(type)
-        end
+    def visits(source)
+      (Day.sdlw..Day.today).reduce([]) do |v, date|
+        check = Metric.last(start_date: date, end_date: date, source: source)
+        visits = check.nil? ? 0 : check.visits
+        v << visits
       end
     end
   end
@@ -91,8 +113,8 @@ module Dash
       set :scheduler, Rufus::Scheduler.start_new
       settings.scheduler.every '10m' do
         puts 'Retrieving GA Data'
-        all_metrics(TODAY, TODAY)
-        visits_by_source(TODAY, TODAY)
+        all_metrics(Day.today, Day.today)
+        visits_by_source(Day.today, Day.today)
       end
     end
 
@@ -101,43 +123,36 @@ module Dash
       @branded, @nonbranded, @unknown, @affiliate, @social, @referral, @paid, @direct, @email = [], [], [], [], [], [], [], [], []
 
       #Get the last 7 days of data.
-      @graph_data = GraphData.new(SDLW..TODAY)
+      @graph_data = GraphData.new(Day.sdlw..Day.today)
 
       #Days for the Y axis
-      @days = (SDLW..TODAY).map{|date| date.strftime("%a").to_s}
+      @days = (Day.sdlw..Day.today).map{|date| date.strftime("%a").to_s}
 
       #Data for the small data panels.
-      @today     = keymetrics(TODAY)
-      @yesterday = keymetrics(YESTERDAY)
-      @sdlw      = keymetrics(SDLW)
+      @today     = keymetrics(Day.today)
+      @yesterday = keymetrics(Day.yesterday)
+      @sdlw      = keymetrics(Day.sdlw)
 
       erb :index
     end
 
     get '/refresh' do
       #Refresh the data for the graph. Visits by source for the last 8 days.
-      (SDLW...TODAY).each do |date|
+      (Day.sdlw...Day.today).each do |date|
         visits_by_source(date, date)
       end
 
       #Refresh the data for number blocks.
-      all_metrics(TODAY, TODAY)
-      all_metrics(YESTERDAY, YESTERDAY)
-      all_metrics(SDLW, SDLW)
+      all_metrics(Day.today, Day.today)
+      all_metrics(Day.yesterday, Day.yesterday)
+      all_metrics(Day.sdlw, Day.sdlw)
 
       redirect '/'
     end
 
     helpers do
       def keymetrics(date)
-        data = Metric.last(source: 'all', start_date: date, end_date: date)
-        return {
-          visits:           data.visits.to_s,
-          revenue:          CURRENCY + data.transaction_revenue.to_s,
-          checkouts:        data.transactions.to_s,
-          basket_size:      CURRENCY + '%.2f' % data.revenue_per_transaction.to_s,
-          conversion_rate:  '%.2f' % data.conversion_rate.to_s + '%'
-        }
+        Metric.last(source: 'all', start_date: date, end_date: date)
       end
 
       def all_metrics(start_date, end_date)
