@@ -41,7 +41,7 @@ module Dash
   end
 
   class GraphData
-    def initialize(date_range)
+    def initialize(date_range)#REVIEW: Data range isn't being used?
       get_data(date_range)
     end
 
@@ -65,6 +65,29 @@ module Dash
         end
       end
     end
+  end
+
+  #TODO: work on Bubble Data methods.
+  class BubbleData
+
+    def initialize(date_range)
+      get_data(date_range)
+    end
+
+    def get_data(date_range)
+
+    end
+      #    def keymetrics(date)
+      #   data = Metric.last(source: 'all', start_date: date, end_date: date)
+      #   return {
+      #     visits:           data.visits.to_s,
+      #     revenue:          CURRENCY + data.transaction_revenue.to_s,
+      #     checkouts:        data.transactions.to_s,
+      #     basket_size:      CURRENCY + '%.2f' % data.revenue_per_transaction.to_s,
+      #     conversion_rate:  '%.2f' % data.conversion_rate.to_s + '%'
+      #   }
+      # end
+
   end
 
   class App < Sinatra::Base
