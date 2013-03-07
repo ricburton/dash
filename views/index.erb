@@ -50,11 +50,11 @@
     <div class="fine number">
       <strong>Conversion Rate</strong>
       <var class="darkgray">
-        <%= @today.conversion_rate %>
+        <%= @today.formatted_conversion_rate %>
       </var>
       <em>
-        <br/>Yesterday: <b><%= @yesterday.conversion_rate %></b>
-        <br/>SDLW: <b><%= @sdlw.conversion_rate %></b>
+        <br/>Yesterday: <b><%= @yesterday.formatted_conversion_rate %></b>
+        <br/>SDLW: <b><%= @sdlw.formatted_conversion_rate %></b>
       </em>
     </div>
   </div>

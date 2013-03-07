@@ -52,7 +52,7 @@ module Dash
       CURRENCY + '%.2f' % revenue_per_transaction.to_s
     end
 
-    def conversion_rate
+    def formatted_conversion_rate
       '%.2f' % conversion_rate.to_s + '%'
     end
 
